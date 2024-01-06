@@ -5,7 +5,9 @@ const sendToken = require("../utils/jwtToken");
 const sendEmail = require("../utils/sendEmail");
 const cloudinary = require("cloudinary");
 const crypto = require("crypto");
+
 exports.registerUser = catchAsyncErorrs(async (req, res, next) => {
+  const avatar = req.file.filename;
   const { name, email, password } = req.body;
   if (!email || !password || !name)
     return next(
@@ -15,19 +17,14 @@ exports.registerUser = catchAsyncErorrs(async (req, res, next) => {
   if (isUser) {
     return next(new ErrorHandler("email is already registered ", 400));
   }
-  // const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-  //   folder: "Avatars",
-  //   width: 150,
-  //   crop: "scale",
-  // });
   const user = await User.create({
     name,
     email,
     password,
-    // avatar: {
-    //   public_id: result.public_id,
-    //   url: result.secure_url,
-    // },
+    avatar: {
+      public_id: Date.now(),
+      url: avatar,
+    },
   }).catch((err) => console.log(err));
   sendToken(user, 200, res);
 });
