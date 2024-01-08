@@ -16,7 +16,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(express.static("uploads"));
 app.use("/api/v1", products);
 app.use("/api/v1", auth);
 app.use("/api/v1", orders);
