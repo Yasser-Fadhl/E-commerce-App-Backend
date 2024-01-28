@@ -6,6 +6,7 @@ const app = express();
 const auth = require("./routes/auth");
 const products = require("./routes/products");
 const orders = require("./routes/orders");
+const payment = require("./routes/payment");
 const errorsMiddleware = require("./middlewares/errors");
 app.use(cookieParser());
 const corsOptions = {
@@ -20,5 +21,6 @@ app.use(express.static("uploads"));
 app.use("/api/v1", products);
 app.use("/api/v1", auth);
 app.use("/api/v1", orders);
+app.use("/api/v1", payment);
 app.use(errorsMiddleware);
 module.exports = app;
